@@ -3,35 +3,31 @@ def main():
     text = get_book_text(book_path)
     num_words = get_num_words(text)
     chars_dict = get_chars_dict(text)
-    chars_sorted_list = chars_dict_to_sorted_list(chars_dict)
-
-    print(f"--- Begin report of {book_path} ---")
-    print(f"{num_words} words found in the document")
-    print()
-
-    for item in chars_sorted_list:
-        if not item["char"].isalpha():
-            continue
-        print(f"The '{item['char']}' character was found {item['num']} times")
-
-    print("--- End report ---")
+    sorted_list = get_list(chars_dict)
+    print(f"--- Start of assignment for {book_path} ---")
+    print(f"{num_words} of words found in this document")
+    for i in sorted_list:
+        print(f"The{i['char']} was found {i['num']} of times.")
+    print("This took me a while to understand how all the code works together.")
+    print("--- This is the end of the assignment ---")
 
 
-def get_num_words(text):
-    words = text.split()
-    return len(words)
+def get_list(num_chars_dict):
+    chars_list = []
+    for chars in num_chars_dict:
+        if chars.isalpha() == True:
+            chars_list.append({"char": chars, "num": num_chars_dict[chars]})
+    chars_list.sort(key=sort_on, reverse=True)
+    return chars_list
 
 
 def sort_on(d):
     return d["num"]
 
 
-def chars_dict_to_sorted_list(num_chars_dict):
-    sorted_list = []
-    for ch in num_chars_dict:
-        sorted_list.append({"char": ch, "num": num_chars_dict[ch]})
-    sorted_list.sort(reverse=True, key=sort_on)
-    return sorted_list
+def get_num_words(text):
+    words = text.split()
+    return len(words)
 
 
 def get_chars_dict(text):
